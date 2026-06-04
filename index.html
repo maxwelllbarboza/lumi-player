@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumi Player | Todo o entretenimento em um só lugar</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --black: #050505;
+            --blue: #00A3FF;
+            --purple: #7B3EFF;
+            --white: #FFFFFF;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Tipografia e Gradientes */
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            color: #b3b3b3;
+            line-height: 1.6;
+        }
+
+        /* Botões */
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(0, 163, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(123, 62, 255, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--blue);
+            box-shadow: 0 0 10px rgba(0, 163, 255, 0.2);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 163, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(0, 163, 255, 0.5);
+        }
+
+        /* Container Padrão */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+
+        /* Navegação */
+        header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--blue);
+            font-size: 2rem;
+            text-shadow: 0 0 10px var(--blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 150px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(123,62,255,0.2) 0%, rgba(0,163,255,0.1) 50%, transparent 70%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .hero-mockup {
+            position: relative;
+        }
+
+        .hero-image-placeholder {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 163, 255, 0.3);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Benefícios */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(123, 62, 255, 0.2);
+            border-color: rgba(123, 62, 255, 0.4);
+        }
+
+        .benefit-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Compatibilidade */
+        .compatibility {
+            text-align: center;
+            background: linear-gradient(0deg, var(--black) 0%, #0a0a0a 100%);
+        }
+
+        .devices-flex {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .device-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            color: #aaa;
+            transition: color 0.3s;
+        }
+
+        .device-item:hover {
+            color: var(--white);
+        }
+
+        .device-item i {
+            font-size: 3rem;
+            color: var(--white);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Como Funciona (Timeline) */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--blue), var(--purple));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--black);
+            border: 4px solid var(--blue);
+            border-radius: 50%;
+            top: 25px;
+            z-index: 1;
+            box-shadow: 0 0 10px var(--blue);
+        }
+
+        .left { left: 0; }
+        .right { left: 50%; }
+
+        .left::after { right: -10px; }
+        .right::after { left: -10px; border-color: var(--purple); box-shadow: 0 0 10px var(--purple); }
+
+        .timeline-content {
+            padding: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+        }
+
+        /* Planos */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .plan-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card:hover {
+            transform: scale(1.05);
+            border-color: var(--blue);
+            box-shadow: 0 0 30px rgba(0, 163, 255, 0.2);
+        }
+
+        .plan-card.popular::before {
+            content: 'MAIS VENDIDO';
+            position: absolute;
+            top: 15px;
+            right: -35px;
+            background: var(--purple);
+            color: white;
+            padding: 5px 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transform: rotate(45deg);
+        }
+
+        .plan-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column; /* Força o conteúdo a ficar em coluna */
+            align-items: center; /* Centraliza o texto */
+            line-height: 1.1; /* Ajusta o espaçamento das linhas */
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: #aaa;
+            margin-top: 5px; /* Dá um pequeno respiro entre o valor e os meses */
+            font-weight: 400;
+        }
+
+        .plan-card .btn {
+            width: 100%;
+            display: block;
+            box-sizing: border-box;
+            white-space: nowrap; /* Evita que o texto do botão quebre em duas linhas */
+            padding: 15px 20px; /* Ajusta o padding para caber melhor */
+        }
+
+        /* Depoimentos */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stars {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* FAQ */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 20px;
+        }
+
+        .faq-answer p {
+            padding-bottom: 20px;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: var(--blue);
+        }
+
+        /* CTA e Rodapé */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(180deg, var(--black) 0%, rgba(123, 62, 255, 0.1) 100%);
+            padding: 100px 20px;
+        }
+
+        .btn-giant {
+            font-size: 1.5rem;
+            padding: 20px 50px;
+            margin-top: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: #25D366; /* Cor do WhatsApp */
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-giant:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6);
+        }
+
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 40px 20px;
+            text-align: center;
+            background: #000;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-content a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .footer-content a:hover {
+            color: var(--white);
+        }
+
+        /* Animações (Scroll) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsividade */
+        @media (max-width: 991px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .timeline::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-item::after { left: 21px; }
+            .right { left: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero-buttons { flex-direction: column; }
+            .btn-giant { font-size: 1.2rem; padding: 15px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegação -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-play"></i> Lumi Player
+            </a>
+            <a href="https://wa.me/5521972002180?text=Olá!%20Gostaria%20de%20assinar%20o%20Lumi%20Player." target="_blank" class="btn btn-primary">Assinar Agora</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content reveal">
+            <div class="hero-text">
+                <h1>Todo o entretenimento que você ama <span class="gradient-text">em um só lugar</span></h1>
+                <p>Canais ao vivo, futebol, filmes, séries e muito mais por apenas <strong>R$ 19,00 por mês.</strong></p>
+                <div class="hero-buttons">
+                    <a href="https://wa.me/5521972002180?text=Olá!%20Gostaria%20de%20um%20teste%20grátis%20de%2012%20horas." target="_blank" class="btn btn-outline">Teste Grátis 12 Horas</a>
+                    <a href="https://wa.me/5521972002180?text=Olá!%20Gostaria%20de%20assinar%20o%20Lumi%20Player." target="_blank" class="btn btn-primary">Assinar Agora</a>
+                </div>
+            </div>
+            <div class="hero-mockup">
+                <!-- Imagem ilustrativa premium (placeholder simulando TV e filmes) -->
+                <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&q=80&w=800" alt="Lumi Player Interface" class="hero-image-placeholder">
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefícios -->
+    <section class="container reveal" id="beneficios">
+        <h2 class="section-title">Por que escolher o <span class="gradient-text">Lumi Player?</span></h2>
+        <p class="section-subtitle">Tudo o que você precisa para a melhor experiência de streaming.</p>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <i class="fa-solid fa-tv"></i>
+                <h3>Mais de 800 canais</h3>
+                <p>Canais abertos e fechados para toda a família.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fa-solid fa-film"></i>
+                <h3>Filmes e Séries</h3>
+                <p>Catálogo atualizado com os últimos lançamentos.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fa-solid fa-futbol"></i>
+                <h3>Futebol ao vivo</h3>
+                <p>Acompanhe o seu time do coração sem travamentos.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>Estabilidade</h3>
+                <p>Servidores premium que garantem zero travamentos.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fa-solid fa-headset"></i>
+                <h3>Suporte rápido</h3>
+                <p>Atendimento humanizado via WhatsApp para te ajudar.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fa-solid fa-display"></i>
+                <h3>Qualidade 4K</h3>
+                <p>Conteúdo em SD, HD, Full HD e 4K para a melhor imagem.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compatibilidade -->
+    <section class="compatibility reveal">
+        <div class="container">
+            <h2 class="section-title">Assista onde quiser</h2>
+            <p class="section-subtitle">O Lumi Player é compatível com os principais dispositivos do mercado.</p>
+            
+            <div class="devices-flex">
+                <div class="device-item">
+                    <i class="fa-solid fa-tv"></i>
+                    <span>Smart TV</span>
+                </div>
+                <div class="device-item">
+                    <i class="fa-solid fa-box"></i>
+                    <span>TV Box</span>
+                </div>
+                <div class="device-item">
+                    <i class="fa-brands fa-amazon"></i>
+                    <span>Fire Stick</span>
+                </div>
+                <div class="device-item">
+                    <i class="fa-brands fa-android"></i>
+                    <span>Android</span>
+                </div>
+                <div class="device-item">
+                    <i class="fa-brands fa-apple"></i>
+                    <span>iPhone</span>
+                </div>
+                <div class="device-item">
+                    <i class="fa-solid fa-tablet-screen-button"></i>
+                    <span>Tablet</span>
+                </div>
+                <div class="device-item">
+                    <i class="fa-solid fa-laptop"></i>
+                    <span>Computador</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section class="container reveal" id="como-funciona">
+        <h2 class="section-title">Como <span class="gradient-text">Funciona?</span></h2>
+        <p class="section-subtitle">Quatro passos simples para liberar o seu acesso.</p>
+        
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>Passo 1</h3>
+                    <p>Solicite seu teste grátis ou assine diretamente pelo nosso WhatsApp.</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>Passo 2</h3>
+                    <p>Receba de forma automática todas as instruções de instalação.</p>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <h3>Passo 3</h3>
+                    <p>Nossa equipe ativa o seu acesso no sistema em minutos.</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <h3>Passo 4</h3>
+                    <p>Pronto! Comece a assistir todo o conteúdo imediatamente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos -->
+    <section class="container reveal" id="planos">
+        <h2 class="section-title">Escolha seu <span class="gradient-text">Plano</span></h2>
+        <p class="section-subtitle">Assine agora e tenha acesso imediato a todo o nosso conteúdo.</p>
+        
+        <div class="plans-grid">
+            <div class="plan-card">
+                <h3 class="plan-title">Mensal</h3>
+                <div class="plan-price">R$ 19,00<span>por mês</span></div>
+                <p>Acesso completo a todos os canais, filmes e séries por 30 dias.</p>
+                <br>
+                <a href="https://wa.me/5521972002180?text=Olá!%20Gostaria%20de%20assinar%20o%20Plano%20Mensal%20(R$19)." target="_blank" class="btn btn-primary">Assinar Mensal</a>
+            </div>
+            
+            <div class="plan-card popular">
+                <h3 class="plan-title">Trimestral</h3>
+                <div class="plan-price">R$ 50,00<span>por 3 meses</span></div>
+                <p>Desconto especial. Acesso completo sem interrupções por 90 dias.</p>
+                <br>
+                <a href="https://wa.me/5521972002180?text=Olá!%20Gostaria%20de%20assinar%20o%20Plano%20Trimestral%20(R$50)." target="_blank" class="btn btn-primary">Assinar Trimestral</a>
+            </div>
+
+            <div class="plan-card">
+                <h3 class="plan-title">Semestral</h3>
+                <div class="plan-price">R$ 100,00<span>por 6 meses</span></div>
+                <p>Mais economia. 180 dias de puro entretenimento e tranquilidade.</p>
+                <br>
+                <a href="https://wa.me/5521972002180?text=Olá!%20Gostaria%20de%20assinar%20o%20Plano%20Semestral%20(R$100)." target="_blank" class="btn btn-primary">Assinar Semestral</a>
+            </div>
+
+            <div class="plan-card">
+                <h3 class="plan-title">Anual</h3>
+                <div class="plan-price">R$ 200,00<span>por 12 meses</span></div>
+                <p>Melhor custo-benefício. Garanta o seu acesso para o ano inteiro.</p>
+                <br>
+                <a href="https://wa.me/5521972002180?text=Olá!%20Gostaria%20de%20assinar%20o%20Plano%20Anual%20(R$200)." target="_blank" class="btn btn-primary">Assinar Anual</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section class="container reveal">
+        <h2 class="section-title">O que dizem os <span class="gradient-text">Clientes</span></h2>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Instalação rápida e imagem excelente. Assisto aos jogos do meu time sem nenhum atraso ou travamento. Recomendo muito!"</p>
+                <p><strong>- Carlos Mendes</strong></p>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Estou usando na TV da sala e no celular. O catálogo de filmes e séries é enorme, igual as plataformas mais famosas."</p>
+                <p><strong>- Juliana Freitas</strong></p>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Melhor custo-benefício que encontrei. Cancelei 3 assinaturas que tinha e concentrei tudo no Lumi Player."</p>
+                <p><strong>- Rafael Souza</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="container reveal" id="faq">
+        <h2 class="section-title">Perguntas <span class="gradient-text">Frequentes</span></h2>
+        
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">Como funciona? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>O Lumi Player é um serviço de streaming via internet. Após a assinatura, enviamos um aplicativo e os dados de acesso para você instalar no seu aparelho (Smart TV, celular, TV Box, etc) e começar a assistir.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question">Tem teste grátis? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>Sim! Oferecemos um teste gratuito de 12 horas para você conhecer nossa plataforma, avaliar a qualidade da imagem e conferir o nosso catálogo sem compromisso.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Em quais aparelhos funciona? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>Funciona em Smart TVs (Samsung, LG, Roku, Android TV), TV Box, Amazon Fire Stick, smartphones (Android e iOS), tablets e computadores pelo navegador.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Preciso de internet rápida? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>Recomendamos uma internet mínima de 15 Mega para assistir em SD/HD, e a partir de 30 Mega para conteúdos em Full HD e 4K, garantindo uma experiência sem travamentos.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Como faço o pagamento? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>O pagamento é feito de forma segura e prática via PIX ou Cartão de Crédito diretamente pelo nosso atendimento no WhatsApp.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Tem suporte? <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>Sim! Nosso suporte é humanizado e está disponível via WhatsApp para auxiliar em configurações, renovações ou qualquer dúvida técnica que você tiver.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chamada Final -->
+    <section class="cta-section reveal">
+        <div class="container">
+            <h2 class="section-title">Pronto para começar?</h2>
+            <p class="section-subtitle">Solicite agora seu teste gratuito de 12 horas e descubra o melhor do entretenimento.</p>
+            <a href="https://wa.me/5521972002180?text=Olá!%20Gostaria%20de%20solicitar%20meu%20teste%20grátis%20de%2012%20horas." target="_blank" class="btn-giant">
+                <i class="fa-brands fa-whatsapp"></i> Falar no WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="https://wa.me/5521972002180" target="_blank"><i class="fa-brands fa-whatsapp"></i> (21) 97200-2180</a>
+                <a href="https://instagram.com/lumiplayer0" target="_blank"><i class="fa-brands fa-instagram"></i> @lumiplayer0</a>
+            </div>
+            <p>&copy; 2026 Lumi Player. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts (FAQ e Scroll Animation) -->
+    <script>
+        // Funcionalidade do FAQ (Accordion)
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Fecha todas as outras abertas
+                faqItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+
+                // Abre a clicada se não estava ativa
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Animação de Scroll (Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Ativa imediatamente para elementos que já estão na tela ao carregar
+        reveal();
+    </script>
+</body>
+</html>
